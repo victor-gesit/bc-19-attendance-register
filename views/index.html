@@ -9,18 +9,18 @@
 	<div class="timer">
 		<p id="#count"></p>
 	</div>s
-	<form method="post" onsubmit="addRow();">
+	<form method="post">
 		<div id="#reg">
 			<p class="event">Andela Bootcamp Presentation</p>
 			<hr>
-			<div id="#name" class="info">
+			<div class="info">
 				<p>Name</p>
-				<input type="text" name="name">
+				<input type="text" name="name" id="name">
 			</div>
 
-			<div id="#email" class="info">
-				<p>Name</p>
-				<input type="text" name="email">
+			<div class="info">
+				<p>Email</p>
+				<input type="text" name="email" id="email">
 			</div>
 			<input type="submit" name="submit" value="Submit" onclick="addRow(); return false;">
 		</div>

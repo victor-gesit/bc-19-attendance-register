@@ -15,8 +15,8 @@ module.exports.get = function(req,res){
 
 module.exports.post = function(req,res){
 
-	time = getTime();
-
+	var time = getTime();
+    console.log("helloo");
 	console.log(req.body.name + " " + time);
 	//addRow.addRow();
 	//res.sendFile(path.join(__dirname+'/views/index.html'));

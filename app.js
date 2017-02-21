@@ -13,5 +13,7 @@ app.get('/', indexController.get);
 app.get('/',  function(req,res){
 	res.sendFile(path.join(__dirname+'/views/index.html'));
 });*/
-app.post('/', indexController.post);
+app.post('/', function(req,res){
+	console.log("hADFASDF");
+});
 app.listen(8082);

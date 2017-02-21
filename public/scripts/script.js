@@ -1,23 +1,31 @@
-var addRow = function ()
+var addRow = function (timeIn,name,email)
 {
-         var name = document.getElementById('name').innerHTML;
-         var email = document.getElementById('email').innerHTML;
-         var timeIn = getTime();
          if (!document.getElementsByTagName) return;
+         var name = document.getElementById('name').value;
+         var email = document.getElementById('email').value;
+         var timeIn = getTime();
+
          tabBody=document.getElementsByTagName("tbody").item(0);
+
          row=document.createElement("tr");
          cell1 = document.createElement("td");
          cell2 = document.createElement("td");
          cell3 = document.createElement("td");
+
          textnode1=document.createTextNode(timeIn);
          textnode2=document.createTextNode(name);
          textnode3=document.createTextNode(email);
+
          cell1.appendChild(textnode1);
          cell2.appendChild(textnode2);
          cell3.appendChild(textnode3);
+
          row.appendChild(cell1);
          row.appendChild(cell2);
+         row.appendChild(cell3);
+         
          tabBody.appendChild(row);
+         
 }
 
 
