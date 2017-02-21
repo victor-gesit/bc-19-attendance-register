@@ -8,6 +8,7 @@ var addRow = function (timeIn,name,email)
          tabBody=document.getElementsByTagName("tbody").item(0);
 
          row=document.createElement("tr");
+
          cell1 = document.createElement("td");
          cell2 = document.createElement("td");
          cell3 = document.createElement("td");
@@ -23,7 +24,7 @@ var addRow = function (timeIn,name,email)
          row.appendChild(cell1);
          row.appendChild(cell2);
          row.appendChild(cell3);
-         
+
          tabBody.appendChild(row);
          
 }
