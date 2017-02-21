@@ -24,6 +24,9 @@ var addRow = function (timeIn,name,email)
          row.appendChild(cell1);
          row.appendChild(cell2);
          row.appendChild(cell3);
+         console.log("here");
+         // Increment Attendees Counter
+         countAttendees();
          heading.parentNode.insertBefore(row, heading.nextSibling);
          //tabBody.appendChild(row);
          
@@ -35,6 +38,12 @@ function AddAfter(rowId){
 
     target.parentNode.insertBefore(newElement, target.nextSibling );
     return newElement;
+}
+
+var countAttendees = function(){
+    var oRows = document.getElementById('table').getElementsByTagName('tr');
+    var iRowCount = oRows.length;
+    document.getElementById('count').innerHTML = iRowCount;
 }
 
 var getTime = function(){
