@@ -1,0 +1,24 @@
+{
+  "name": "bc-19-attendance-register",
+  "version": "1.0.0",
+  "description": "An Attendance Register App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victor4l/bc-19-attendance-register.git"
+  },
+  "keywords": [
+    "Project",
+    "Attendance",
+    "Register"
+  ],
+  "author": "Victor Idongesit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victor4l/bc-19-attendance-register/issues"
+  },
+  "homepage": "https://github.com/victor4l/bc-19-attendance-register#readme"
+}
