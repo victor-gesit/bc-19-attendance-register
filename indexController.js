@@ -54,6 +54,7 @@ getAttendees = function(){
     attendees.on('value', function(snapshot) {
         console.log(snapshot.val());
     });
+    var attendeesCount = Object.keys(attendees).length;
 }
 
 var getTime = function(){
