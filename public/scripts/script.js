@@ -5,8 +5,8 @@ var addRow = function (timeIn,name,email)
          var email = document.getElementById('email').value;
          var timeIn = getTime();
 
-         tabBody=document.getElementsByTagName("tbody").item(0);
-
+         tabBody=document.getElementsByTagName('tbody').item(0);
+         var heading = document.getElementById('theading');
          row=document.createElement("tr");
 
          cell1 = document.createElement("td");
@@ -24,11 +24,18 @@ var addRow = function (timeIn,name,email)
          row.appendChild(cell1);
          row.appendChild(cell2);
          row.appendChild(cell3);
-
-         tabBody.appendChild(row);
+         heading.parentNode.insertBefore(row, heading.nextSibling);
+         //tabBody.appendChild(row);
          
 }
 
+function AddAfter(rowId){
+    var target = document.getElementById(rowId);
+    var newElement = document.createElement('tr');
+
+    target.parentNode.insertBefore(newElement, target.nextSibling );
+    return newElement;
+}
 
 var getTime = function(){
    var currentTime = new Date();
