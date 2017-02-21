@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/victor4l/bc-19-attendance-register/issues"
   },
-  "homepage": "https://github.com/victor4l/bc-19-attendance-register#readme"
+  "homepage": "https://github.com/victor4l/bc-19-attendance-register#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "firebase": "^3.6.9"
+  }
 }
