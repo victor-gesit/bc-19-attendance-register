@@ -6,7 +6,7 @@ var indexController = require('./indexController');
 // Midlewares
 app.use(bodyParser());
 
-
+app.use(express.static(path.join(__dirname, '/public')));
 //Respond to get on homepage
 app.get('/', indexController.get);
 /*

@@ -1,6 +1,6 @@
 var path = require('path');
-var firebase = require('firebase')
-
+var firebase = require('firebase');
+var addRow = require('./public/scripts/script');
 var config = {
     apiKey: "AIzaSyDMDAEyzR_JoZH2DALGyHeGaCHXcgGxl9g",
     authDomain: "attendance-register-38ad7.firebaseapp.com",
@@ -16,7 +16,10 @@ module.exports.get = function(req,res){
 module.exports.post = function(req,res){
 
 	time = getTime();
+
 	console.log(req.body.name + " " + time);
+	//addRow.addRow();
+	//res.sendFile(path.join(__dirname+'/views/index.html'));
 }
 
 var getTime = function(){
