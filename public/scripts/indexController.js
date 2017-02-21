@@ -21,23 +21,11 @@ module.exports.post = function(req,res){
     name = req.body.name;
     email = req.body.email;
     timeIn = getTime();
-    id = genId();
-    addAttendee(timeIn,name,email,id);
-	console.log(req.body.name + " " + timeIn);
+
+    addAttende(timeIn,name,email,id);
+	console.log(req.body.name + " " + time);
 	//addRow.addRow();
 	//res.sendFile(path.join(__dirname+'/views/index.html'));
-    getAttendees();
-}
-
-var genId = function(){
-    var id = Math.floor((Math.random()*1000) + 1);
-    if(id > 100){
-        return id;
-    } else if(id >10){
-        return '0' + parseInt(id);
-    } else if (id > 1){
-        return '00' + parseInt(id);
-    }
 }
 function addAttendee(timeIn, name, email, id){
     var attendee = {
@@ -48,14 +36,6 @@ function addAttendee(timeIn, name, email, id){
     }
     firebase.database().ref('attendees/' + id).set(attendee);
 }
-
-getAttendees = function(){
-    var attendees = firebase.database().ref('attendees/');
-    attendees.on('value', function(snapshot) {
-        console.log(snapshot.val());
-    });
-}
-
 var getTime = function(){
 	var currentTime = new Date();
     var hours = currentTime.getHours();
@@ -76,3 +56,6 @@ var getTime = function(){
     return time;
 }
 
+module.exports.getAttendees = function(){
+    
+};

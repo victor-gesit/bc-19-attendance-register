@@ -1,3 +1,5 @@
+//var controller = require("./indexController");
+
 var addRow = function (timeIn,name,email)
 {
          if (!document.getElementsByTagName) return;
@@ -24,9 +26,10 @@ var addRow = function (timeIn,name,email)
          row.appendChild(cell1);
          row.appendChild(cell2);
          row.appendChild(cell3);
-         console.log("here");
+
          // Increment Attendees Counter
          countAttendees();
+         // Insert new row
          heading.parentNode.insertBefore(row, heading.nextSibling);
          //tabBody.appendChild(row);
          
