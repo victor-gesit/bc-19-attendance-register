@@ -18,19 +18,49 @@ router.get('/', function(req,res){
 })
 module.exports = function(app){
     app.get('/', function(req,res){
-        res.sendFile(path.join(__dirname+'/views/index.html'));
+        //res.sendFile(path.join(__dirname+'/views/index.html'));
+        res.render('pages/dashboard');
         console.log('Gotten');
     })
     app.get('/register', function(req,res){
-        res.sendFile(path.join(__dirname+'/views/register.html'));
+        res.render('pages/register');
     })
     app.get('/signin', function(req,res){
-        res.sendFile(path.join(__dirname+'/views/signin.html'));
+        res.render('pages/signin');
     })
     app.get('/dashboard', function(req,res){
-        res.sendFile(path.join(__dirname+'/views/dashboard.html'));
+        res.render('pages/dashboard');
+    })
+    app.get('/create', function(req,res){
+        res.render('pages/create')
     })
 
+    // Post Methods
+    app.post('/signin', function(req,res){
+        signin(req,res);
+    })
+    app.post('/dashboard', function(req,res){
+        dashboard(req,res);
+    })
+    app.post('/register', function(req,res){
+        register(req,res);
+    })
+    app.post('/create', function(req,res){
+        create(req,res);
+    })
+}
+
+function signin(req,res){
+    console.log('Signing In');
+}
+function dashboard(req,res){
+    console.log('Dashboard');
+}
+function register(req,res){
+    console.log('Register');
+}
+function create(req,res){
+    console.log('Creating');
 }
 /*
 // EXPORTS
