@@ -1,19 +1,19 @@
-//var controller = require("./indexController");
+//const controller = require('./indexController');
 
-var addRow = function (timeIn,name,email)
+function addRow(timeIn,name,email)
 {
          if (!document.getElementsByTagName) return;
-         var name = document.getElementById('name').value;
-         var email = document.getElementById('email').value;
-         var timeIn = getTime();
+         let name = document.getElementById('name').value;
+         const email = document.getElementById('email').value;
+         const timeIn = getTime();
 
          tabBody=document.getElementsByTagName('tbody').item(0);
-         var heading = document.getElementById('theading');
-         row=document.createElement("tr");
+         const heading = document.getElementById('theading');
+         row=document.createElement('tr');
 
-         cell1 = document.createElement("td");
-         cell2 = document.createElement("td");
-         cell3 = document.createElement("td");
+         cell1 = document.createElement('td');
+         cell2 = document.createElement('td');
+         cell3 = document.createElement('td');
 
          textnode1=document.createTextNode(timeIn);
          textnode2=document.createTextNode(name);
@@ -36,35 +36,35 @@ var addRow = function (timeIn,name,email)
 }
 
 function AddAfter(rowId){
-    var target = document.getElementById(rowId);
-    var newElement = document.createElement('tr');
+    const target = document.getElementById(rowId);
+    const newElement = document.createElement('tr');
 
     target.parentNode.insertBefore(newElement, target.nextSibling );
     return newElement;
 }
 
-var countAttendees = function(){
-    var oRows = document.getElementById('table').getElementsByTagName('tr');
-    var iRowCount = oRows.length;
+function countAttendees(){
+    const oRows = document.getElementById('table').getElementsByTagName('tr');
+    const iRowCount = oRows.length;
     document.getElementById('count').innerHTML = iRowCount;
 }
 
-var getTime = function(){
-   var currentTime = new Date();
-    var hours = currentTime.getHours();
-    var minutes = currentTime.getMinutes();
-    var seconds = currentTime.getSeconds();
+function getTime(){
+   const currentTime = new Date();
+    let hours = currentTime.getHours();
+    let minutes = currentTime.getMinutes();
+    let seconds = currentTime.getSeconds();
     if (minutes < 10){
-        minutes = "0" + minutes;
+        minutes = '0' + minutes;
     }
     if (seconds < 10){
-        seconds = "0" + seconds;
+        seconds = '0' + seconds;
     }
-    var time = hours + ":" + minutes +" ";
+    let time = hours + ':' + minutes +' ';
     if(hours > 11){
-        time+="PM";
+        time+='PM';
     } else {
-        time+="AM"
+        time+='AM'
     }
     return time;
 }
