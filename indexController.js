@@ -18,9 +18,11 @@ router.get('/', function(req,res){
 })
 module.exports = function(app){
     app.get('/', function(req,res){
-        //res.sendFile(path.join(__dirname+'/views/index.html'));
-        res.render('pages/dashboard');
+        res.render('pages/checkin');
         console.log('Gotten');
+    })
+    app.get('/', function(){
+        res.render('pages/homepage');
     })
     app.get('/register', function(req,res){
         res.render('pages/register');
@@ -36,6 +38,10 @@ module.exports = function(app){
     })
 
     // Post Methods
+    //app.post('/checkin' )
+    app.post('/', function(req,res){
+        home(req,res);
+    })
     app.post('/signin', function(req,res){
         signin(req,res);
     })
@@ -49,7 +55,18 @@ module.exports = function(app){
         create(req,res);
     })
 }
-
+function checkIn(req,res,eventId){
+    const name = req.body.name;
+    const email = req.body.email;
+    const timeIn = getTime();
+    const id = genId();
+    addAttendee(timeIn,name,email,id);
+    const present = getAttendees();
+    res.render('pages/checkin',attendees);
+}
+function home(req,res){
+    console.log('Homepage');
+}
 function signin(req,res){
     console.log('Signing In');
 }
@@ -125,15 +142,17 @@ function addAttendee(timeIn, name, email, id, eventCode){
         email:email,
         id:id
     }
-    firebase.database().ref('attendees/eventCode' + id).set(attendee);
+    firebase.database().ref('attendees/').set(attendee);
 }
 
-function getAttendees(eventCode){
-    const attendees = firebase.database().ref('attendees/eventCode');
+function getAttendeesCount(eventCode){
+    const attendees = firebase.database().ref('attendees/');
     attendees.on('value', function(snapshot) {
         console.log(snapshot.val());
     });
     const attendeesCount = Object.keys(attendees).length;
+    //console.log(Object.keys(attendeesCount));
+    return attendeesCount;
 }
 
 function getTime(){
@@ -156,3 +175,17 @@ function getTime(){
     return time;
 }
 
+function getAttendees(){
+    const allAttendees = null;
+    const attendees = firebase.database().ref('attendees/');
+    attendees.on('value', function(snapshot) {
+        console.log(snapshot.val());
+        allAttendees = snapshot.val();
+    });
+    return allAttendees;
+
+}
+
+function getEvents(){
+
+}
