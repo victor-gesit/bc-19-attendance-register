@@ -1,0 +1,52 @@
+<div class='container'>
+	<div class='timer'>
+		<p id='count'><%=count%></p>
+	</div>
+	<form method='post' >
+		<div id='reg'>
+			<p class='event'></p>
+			<hr>
+			<div class='info'>
+				<p>Name</p>
+				<input type='text' name='name' id='name'>
+			</div>
+
+			<div class='info'>
+				<p>Email</p>
+				<input type='email' name='email' id='email'>
+			</div>
+			<input type='submit' name='submit' value='Submit'>
+		</div>
+	</form>
+
+	<table id='table'>
+		<thead>
+			<tr id='theading'>
+				<td>
+					Time-in
+				</td>
+				<td>
+					Name
+				</td>
+				<td>
+					Email
+				</td>
+			</tr>
+		</thead>
+		<tbody id='table-body'>
+        
+            <tr>
+                <td>OBI</td>
+            </tr>
+			<% for(var i=0; i < data.length; i++) { %>
+   			<tr>
+     			<td><%= data[i].timeIn %></td>
+     			<td><%= data[i].name %></td>
+     			<td><%= data[i].email%></5d>
+   			</tr>
+   			<% } %>
+
+		</tbody>
+	</table>
+    <p>THIS IS BOTTOM</p>
+</div>

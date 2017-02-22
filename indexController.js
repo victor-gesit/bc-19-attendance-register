@@ -13,14 +13,19 @@ const config = {
 firebase.initializeApp(config);
 
 const database = firebase.database();
-router.get('/', function(req,res){
-    console.log('Hello');
-})
+
 module.exports = function(app){
     app.get('/', function(req,res){
-        res.render('pages/checkin');
+        const present = getAttendees();
+        res.render('pages/checkin', {
+            count:20,
+            data:present,
+            eventName:'Andela Bootcamp Project Defence'
+        });
         console.log('Gotten');
     })
+
+    // Other Unimplemented Routes
     app.get('/', function(){
         res.render('pages/homepage');
     })
@@ -38,9 +43,8 @@ module.exports = function(app){
     })
 
     // Post Methods
-    //app.post('/checkin' )
     app.post('/', function(req,res){
-        home(req,res);
+        checkIn(req,res,20);
     })
     app.post('/signin', function(req,res){
         signin(req,res);
@@ -55,18 +59,28 @@ module.exports = function(app){
         create(req,res);
     })
 }
-function checkIn(req,res,eventId){
+function home(req,res){
+    checkIn(req,res);
+}
+function checkIn(req,res){
     const name = req.body.name;
     const email = req.body.email;
     const timeIn = getTime();
-    const id = genId();
+    const id = 'ABPD';
     addAttendee(timeIn,name,email,id);
-    const present = getAttendees();
-    res.render('pages/checkin',attendees);
+
+    const attendees = getAttendees();
+
+    res.render('pages/checkin', {
+        data:attendees,
+        count:'20',
+        eventName:'Andela Bootcamp Project Defence'
+    });
 }
-function home(req,res){
-    console.log('Homepage');
-}
+
+
+
+
 function signin(req,res){
     console.log('Signing In');
 }
@@ -79,52 +93,7 @@ function register(req,res){
 function create(req,res){
     console.log('Creating');
 }
-/*
-// EXPORTS
-module.exports.get = function(req,res){
-	res.sendFile(path.join(__dirname+'/views/index.html'));
-};
-module.exports.getDashboard = function(req,res){
-    res.sendFile(path.join(__dirname+'/views/dashboard.html'));
-}
-module.exports.getSignin = function(req,res){
-    res.sendFile(path.join(__dirname+'/views/signin.html'));
-}
-module.exports.getHomepage = function(req,res){
-    res.sendFile(path.join(__dirname+'/views/homepage.html'));
-}
-module.exports.getRegister = function(req,res){
-    res.sendFile(path.join(__dirname+'/views/register.html'));
-}
-module.exports.post = function(req,res){
-    name = req.body.name;
-    email = req.body.email;
-    timeIn = getTime();
-    id = genId();
-    addAttendee(timeIn,name,email,id);
-	console.log(req.body.name + ' ' + timeIn);
-	//addRow.addRow();
-	//res.sendFile(path.join(__dirname+'/views/index.html'));
-    getAttendees();
-}
 
-module.exports.postDashboard = function(req,res){
-    console.log('postDashboard');
-}
-module.exports.postSignin = function(req,res){
-    console.log('postSignin');
-
-}
-module.exports.postHomepage= function(req,res){
-    console.log('postHomepage');
-}
-module.exports.postRegister = function(req,res){
-    console.log('postRegister');
-}
-module.exports.postSearch = function(req,res){
-    console.log('postSearch');0
-}
-*/
 function genId(){
     const id = Math.floor((Math.random()*1000) + 1);
     if(id > 100){
@@ -140,11 +109,23 @@ function addAttendee(timeIn, name, email, id, eventCode){
         timeIn:timeIn,
         name:name,
         email:email,
-        id:id
+        eventId:id
     }
-    firebase.database().ref('attendees/').set(attendee);
+    firebase.database().ref('events/'+id).push(attendee);
 }
+function getAttendees(){
+    let allAttendees = null;
+    const attendees = firebase.database().ref('attendees/');
+    attendees.on('value', function(snapshot) {
+        console.log(snapshot.val());
+        allAttendees = snapshot.val();
+    }, function(errorObject){
+        console.log('The read failed: ' + errorObject.code);
+    });
+    console.log(allAttendees);
+    return allAttendees;
 
+}
 function getAttendeesCount(eventCode){
     const attendees = firebase.database().ref('attendees/');
     attendees.on('value', function(snapshot) {
@@ -158,8 +139,8 @@ function getAttendeesCount(eventCode){
 function getTime(){
 	const currentTime = new Date();
     const hours = currentTime.getHours();
-    const minutes = currentTime.getMinutes();
-    const seconds = currentTime.getSeconds();
+    let minutes = currentTime.getMinutes();
+    let seconds = currentTime.getSeconds();
     if (minutes < 10){
         minutes = '0' + minutes;
     }
@@ -175,17 +156,18 @@ function getTime(){
     return time;
 }
 
-function getAttendees(){
-    const allAttendees = null;
-    const attendees = firebase.database().ref('attendees/');
-    attendees.on('value', function(snapshot) {
-        console.log(snapshot.val());
-        allAttendees = snapshot.val();
-    });
-    return allAttendees;
 
-}
 
 function getEvents(){
 
 }
+/*
+function jsonToArray(json){
+    var parsed = JSON.parse(json);
+    var arr = [];
+    for(var x in parsed){
+        arr.push(parsed[x]);
+    }
+    return arr;
+}
+*/
