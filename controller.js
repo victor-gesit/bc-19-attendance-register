@@ -41,7 +41,7 @@ module.exports = function(app){
             counter = at.length;
             const obj = {
                 count:at.length,
-                eventName:'Andela  BTC',
+                eventName:'Andela  Bootcamp Project Presentation',
                 data:at,
             }
             res.render('pages/checkin',obj);
@@ -50,6 +50,7 @@ module.exports = function(app){
 
 
     // Other Unimplemented Routes
+
     app.get('/register', function(req,res){
         res.render('pages/register');
     })
@@ -83,6 +84,9 @@ module.exports = function(app){
     app.post('/create', function(req,res){
         create(req,res);
     })
+    app.post('/signup',function(req,res){
+        signup(req,res);
+    })
 }
 function home(req,res){
     checkIn(req,res);
@@ -105,6 +109,51 @@ function checkIn(req,res){
     res.redirect('/');    
 }
 
+function signin(req,res){
+    console.log('signin calld');
+    const email = req.body.email;
+    console.log(email);
+    console.log(req.body.password);
+    console.log(req.body);
+    const password = req.body.password;
+    firebase.auth().signInWithEmailAndPassword(email,password)
+        .then((user) => {res.redirect('/dashboard')})
+        .catch(function(error){
+            let errorcode = error.code;
+            let erroMessage = error.message;
+            if(errorcode == 'auth/wrong-password'){
+                console.log('Wrong PW');
+            } else{
+                console.log(error.message);
+            }
+            //console.log('WRONG');
+            res.redirect('/signin');
+        })
+}
+
+function signup(req,res){
+    const name = req.body.name;
+    const email = req.body.email;
+    const password = req.body.password;
+    console.log('SIGNUP CALLED');
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((user) => {
+            let userId = user.uid;
+            let userRef = ref.child('users/' + userId);
+            
+            return userRef.set({
+                userId,
+                full_name,
+                email,
+                password
+            });
+        })
+        .then(res.redirect('/dashboard'))
+        .catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+    });
+}
 function addAttendee(res,timeIn, name, email, attID, eventCode){
     const attendee = {
         timeIn:timeIn,
@@ -119,6 +168,9 @@ function getAttendees(eventCode, callback){
     let allAttendees = {};
     const events = database.ref('events/'+eventCode);
     events.once('value').then(function(snapshot){
+        if(snapshot===undefined){
+            callback({});
+        }
         callback(snapshot.val());
     })
 }
@@ -145,10 +197,6 @@ function getTime(){
         time+='AM'
     }
     return time;
-}
-
-function signin(req,res){
-    console.log('Signing In');
 }
 function dashboard(req,res){
     console.log('Dashboard');

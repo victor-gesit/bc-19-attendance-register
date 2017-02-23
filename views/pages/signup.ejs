@@ -4,7 +4,7 @@
 <div class="testbox">
   <h1>Attendance Register<br><span style='color:brown'>Signup</h1>
 
-  <form action="/">
+  <form action="/signup" method='post'>
       <hr>
     <div class="accounttype">
       <input type="radio" value="None" id="radioOne" name="account" checked/>
@@ -12,14 +12,14 @@
       <input type="radio" value="None" id="radioTwo" name="account" />
       <label for="radioTwo" class="radio">Company</label>
     </div>
-  <hr>
-  <label id="icon" for="name"><i class="icon-user"></i></label>
-  <input type="text" name="name" id="name" placeholder="Name" required/>
-  <label id="icon" for="name"><i class="icon-envelope "></i></label>
-  <input type="text" name="name" id="name" placeholder="Email" required/>
-  <label id="icon" for="name"><i class="icon-shield"></i></label>
-  <input type="password" name="name" id="name" placeholder="Password" required/>
-   <p>By clicking Register, you agree on our <a href="#">terms and condition</a>.</p>
-   <a href="#" class="button">Register</a>
+    <hr>
+    <label id="icon" for="name"><i class="icon-user"></i></label>
+    <input type="text" name="name" id="name" placeholder="Name" required/>
+    <label id="icon" for="name"><i class="icon-envelope "></i></label>
+    <input type="text" name="email" id="name" placeholder="Email" required/>
+    <label id="icon" for="name"><i class="icon-shield"></i></label>
+    <input type="password" name="password" id="name" placeholder="Password" required/>
+     <p>By clicking Register, you agree on our terms and condition.</p>
+     <input type='submit' name='submit' value='Submit'>
   </form>
 </div>
