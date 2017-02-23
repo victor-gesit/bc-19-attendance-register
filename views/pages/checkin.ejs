@@ -1,8 +1,12 @@
+ <head>
+
+ <link rel="stylesheet" type="text/css" href="css/checkin.css"/>
+</head>
 <div class='container'>
 	<div class='timer'>
 		<p id='count'><%=count%></p>
 	</div>
-	<form method='post' action='/'>
+	<form method='post' action='/checkin'>
 		<div id='reg'>
 			<p class='event'><%=eventName %></p>
 			<hr>
@@ -18,7 +22,6 @@
 			<input type='submit' name='submit' value='Submit'>
 		</div>
 	</form>
-<%=data%>
 
 	<table id='table'>
 		<thead>
@@ -35,7 +38,13 @@
 			</tr>
 		</thead>
 		<tbody id='table-body'>
-		
+		<% for(var i=data.length-1; i >= 0; i--) { %>
+   		<tr>
+     		<td><%= data[i].timeIn %></td>
+     		<td><%= data[i].name %></td>
+     		<td><%= data[i].email %></td>
+   		</tr>
+			<% } %>
 		</tbody>
 	</table>
 </div>

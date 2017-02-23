@@ -1,56 +1,24 @@
-<% include ../partials/head%>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+ <link rel="stylesheet" type="text/css" href="css/register.css" />
+</head>
+<div class="testbox">
+  <h1>Registration</h1>
 
-<div id='signup'>   
-          <h1>Register for an Event</h1>
-          
-
-          <div id='search'>
-          	<form action='/search' method='post'>
-          		<label>Event Code </label>
-              <input type='text' required autocomplete='text'/>
-              <input type='submit' name='search' value='Search'>
-          	</form>
-          </div>
-
-          <div id='event-details'>
-              <h3 id='evTitle'></h3>
-              <p>
-              </p>
-          </div>
-
-
-
-          <div id='reg'>
-	          <form action='/register' method='post'>
-	          <div class='top-row'>
-	            <div class='field-wrap'>
-	              <label>
-	                First Name<span class='req'>*</span>
-	              </label>
-	              <input type='text' required autocomplete='off' />
-	            </div>
-	        
-	            <div class='field-wrap'>
-	              <label>
-	                Last Name<span class='req'>*</span>
-	              </label>
-	              <input type='text'required autocomplete='off'/>
-	            </div>
-	          </div>
-
-	          <div class='field-wrap'>
-	            <label>
-	              Email Address<span class='req'>*</span>
-	            </label>
-	            <input type='email'required autocomplete='off'/>
-	          </div>
-	          
-	          <button type='submit' class='button button-block'/>Get Started</button>
-	          
-	          </form>
-	        </div>
-        </div>
-
-
-
-<% include ../partials/footer%>
+  <form action="/">
+  <hr>
+  <label id="icon" for="name"><i class="icon-envelope "></i></label>
+  <input type="text" name="name" id="name" placeholder="Email" required/>
+  <label id="icon" for="name"><i class="icon-user"></i></label>
+  <input type="text" name="name" id="name" placeholder="Name" required/>
+  <div class="gender">
+    <input type="radio" value="None" id="male" name="gender" checked/>
+    <label for="male" class="radio" chec>Male</label>
+    <input type="radio" value="None" id="female" name="gender" />
+    <label for="female" class="radio">Female</label>
+   </div> 
+   <p>Please come with a means of ID to the venue</a>.</p>
+   <a href="#" class="button">Register</a>
+  </form>
+</div>

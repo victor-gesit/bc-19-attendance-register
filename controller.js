@@ -11,22 +11,43 @@ const config = {
     messagingSenderId: '826903044656'
 };
 firebase.initializeApp(config);
-
 const database = firebase.database();
-var allPresent ={};
+let counter = 0;
+
+function renderPage(path,req,res,obj){
+    res.render(path,obj);
+}
+
 module.exports = function(app){
+    app.get('/index', function(req,res){
+        res.render('pages/home',{
+            title:'Attendance Register',
+        });
+    })    
+
+
     app.get('/', function(req,res){
-        //async.series([getAttendees('ABPD'),renderPage(res,'/',obj)]);
-        getAttendees(function(data){
-            console.log('from get(): ' + data);
+        getAttendees('ABPD',function(data){
+            //console.log('from get(): ' + data);
+
+            let at = [];
+            let keys = Object.keys(data);
+            //console.log(keys);
+            for(key in keys){
+                //console.log(keys[key]);
+                at.push(data[keys[key]]);
+            }
+            //console.log(at);
+            counter = at.length;
             const obj = {
-                count:data.length,
+                count:at.length,
                 eventName:'Andela  BTC',
-                data:data
+                data:at,
             }
             res.render('pages/checkin',obj);
         })
     });
+
 
     // Other Unimplemented Routes
     app.get('/register', function(req,res){
@@ -41,9 +62,13 @@ module.exports = function(app){
     app.get('/create', function(req,res){
         res.render('pages/create')
     })
+    app.get('/signup', function(req,res){
+        res.render('pages/signup')
+    })
 
+    
     // Post Methods
-    app.post('/', function(req,res){
+    app.post('/checkin', function(req,res){
         checkIn(req,res);
     })
     app.post('/signin', function(req,res){
@@ -66,17 +91,60 @@ function checkIn(req,res){
     const name = req.body.name;
     const email = req.body.email;
     const timeIn = getTime();
-    const id = 'ABPD';
-    addAttendee(timeIn,name,email,id);
-
-    getAttendees('ABPD', function(data){
+    const eventCode = 'ABPD';
+    counter +=1;
+    let id = counter;
+    addAttendee(res, timeIn,name,email,id,eventCode);
+    getAttendees(eventCode, function(data){
         res.render('pages/checkin', {
             data:data,
             count:data.length,
             eventName:'Andela Bootcamp Project Defence'
         });
     });
-    
+    res.redirect('/');    
+}
+
+function addAttendee(res,timeIn, name, email, attID, eventCode){
+    const attendee = {
+        timeIn:timeIn,
+        name:name,
+        email:email,
+        id:attID,
+        eventCode:eventCode
+    }
+    database.ref('events/'+eventCode+'/').push(attendee);
+}
+function getAttendees(eventCode, callback){
+    let allAttendees = {};
+    const events = database.ref('events/'+eventCode);
+    events.once('value').then(function(snapshot){
+        callback(snapshot.val());
+    })
+}
+
+
+function getTime(){
+	const currentTime = new Date();
+    let hours = currentTime.getHours();
+    let minutes = currentTime.getMinutes();
+    let seconds = currentTime.getSeconds();
+    if (minutes < 10){
+        minutes = '0' + minutes;
+    }
+    if (seconds < 10){
+        seconds = '0' + seconds;
+    }
+    if(hours < 10){
+        hours = '0' + hours;
+    }
+    let time = hours + ':' + minutes +' ';
+    if(hours > 11){
+        time+='PM';
+    } else {
+        time+='AM'
+    }
+    return time;
 }
 
 function signin(req,res){
@@ -90,53 +158,4 @@ function register(req,res){
 }
 function create(req,res){
     console.log('Creating');
-}
-
-function genId(){
-    const id = Math.floor((Math.random()*1000) + 1);
-    if(id > 100){
-        return id;
-    } else if(id >10){
-        return '0' + parseInt(id);
-    } else if (id > 1){
-        return '00' + parseInt(id);
-    }
-}
-function addAttendee(timeIn, name, email, id, eventCode){
-    const attendee = {
-        timeIn:timeIn,
-        name:name,
-        email:email,
-        eventId:id
-    }
-    firebase.database().ref('events/'+id).push(attendee);
-}
-function getAttendees(callback){
-    let allAttendees = {};
-    const events = firebase.database().ref('events/');
-    events.child('ABPD').on('value', function(snapshot){
-        console.log(snapshot.val());
-        callback(JSON.parse(JSON.stringify(snapshot.val())));
-    })
-}
-
-
-function getTime(){
-	const currentTime = new Date();
-    const hours = currentTime.getHours();
-    let minutes = currentTime.getMinutes();
-    let seconds = currentTime.getSeconds();
-    if (minutes < 10){
-        minutes = '0' + minutes;
-    }
-    if (seconds < 10){
-        seconds = '0' + seconds;
-    }
-    let time = hours + ':' + minutes +' ';
-    if(hours > 11){
-        time+='PM';
-    } else {
-        time+='AM'
-    }
-    return time;
 }
