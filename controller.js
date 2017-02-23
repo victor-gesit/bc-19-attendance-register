@@ -135,11 +135,14 @@ function signup(req,res){
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
+    const eventCode = req.body.eventCode;
+    const descr = req.body.eventDesc
+
     console.log('SIGNUP CALLED');
     firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((user) => {
+        /*.then((user) => {
             let userId = user.uid;
-            let userRef = ref.child('users/' + userId);
+            let userRef = database.child('users/' + userId);
             
             return userRef.set({
                 userId,
@@ -147,8 +150,13 @@ function signup(req,res){
                 email,
                 password
             });
-        })
-        .then(res.redirect('/dashboard'))
+        })*/
+        .then(
+
+
+            res.redirect('/dashboard')
+
+        )
         .catch(function(error) {
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -206,4 +214,23 @@ function register(req,res){
 }
 function create(req,res){
     console.log('Creating');
+}
+
+function addEvent(req,res){
+
+}
+
+function getEvents(email,callback){
+    let allAttendees = {};
+    const events = database.ref('users'+email);
+    events.once('value').then(function(snapshot){
+        if(snapshot===undefined){
+            callback({});
+        }
+        callback(snapshot.val());
+    })
+
+}
+function addEvents(req,res){
+
 }
