@@ -2,7 +2,7 @@ const path = require('path');
 const firebase = require('firebase');
 const express = require('express');
 const router = express.Router();
-//const addRow = require('./public/scripts/script');
+const async = require('async');
 const config = {
     apiKey: 'AIzaSyDMDAEyzR_JoZH2DALGyHeGaCHXcgGxl9g',
     authDomain: 'attendance-register-38ad7.firebaseapp.com',
@@ -13,22 +13,22 @@ const config = {
 firebase.initializeApp(config);
 
 const database = firebase.database();
-
+var allPresent ={};
 module.exports = function(app){
     app.get('/', function(req,res){
-        const present = getAttendees();
-        res.render('pages/checkin', {
-            count:20,
-            data:present,
-            eventName:'Andela Bootcamp Project Defence'
-        });
-        console.log('Gotten');
-    })
+        //async.series([getAttendees('ABPD'),renderPage(res,'/',obj)]);
+        getAttendees(function(data){
+            console.log('from get(): ' + data);
+            const obj = {
+                count:data.length,
+                eventName:'Andela  BTC',
+                data:data
+            }
+            res.render('pages/checkin',obj);
+        })
+    });
 
     // Other Unimplemented Routes
-    app.get('/', function(){
-        res.render('pages/homepage');
-    })
     app.get('/register', function(req,res){
         res.render('pages/register');
     })
@@ -44,7 +44,7 @@ module.exports = function(app){
 
     // Post Methods
     app.post('/', function(req,res){
-        checkIn(req,res,20);
+        checkIn(req,res);
     })
     app.post('/signin', function(req,res){
         signin(req,res);
@@ -69,17 +69,15 @@ function checkIn(req,res){
     const id = 'ABPD';
     addAttendee(timeIn,name,email,id);
 
-    const attendees = getAttendees();
-
-    res.render('pages/checkin', {
-        data:attendees,
-        count:'20',
-        eventName:'Andela Bootcamp Project Defence'
+    getAttendees('ABPD', function(data){
+        res.render('pages/checkin', {
+            data:data,
+            count:data.length,
+            eventName:'Andela Bootcamp Project Defence'
+        });
     });
+    
 }
-
-
-
 
 function signin(req,res){
     console.log('Signing In');
@@ -113,28 +111,15 @@ function addAttendee(timeIn, name, email, id, eventCode){
     }
     firebase.database().ref('events/'+id).push(attendee);
 }
-function getAttendees(){
-    let allAttendees = null;
-    const attendees = firebase.database().ref('attendees/');
-    attendees.on('value', function(snapshot) {
+function getAttendees(callback){
+    let allAttendees = {};
+    const events = firebase.database().ref('events/');
+    events.child('ABPD').on('value', function(snapshot){
         console.log(snapshot.val());
-        allAttendees = snapshot.val();
-    }, function(errorObject){
-        console.log('The read failed: ' + errorObject.code);
-    });
-    console.log(allAttendees);
-    return allAttendees;
+        callback(JSON.parse(JSON.stringify(snapshot.val())));
+    })
+}
 
-}
-function getAttendeesCount(eventCode){
-    const attendees = firebase.database().ref('attendees/');
-    attendees.on('value', function(snapshot) {
-        console.log(snapshot.val());
-    });
-    const attendeesCount = Object.keys(attendees).length;
-    //console.log(Object.keys(attendeesCount));
-    return attendeesCount;
-}
 
 function getTime(){
 	const currentTime = new Date();
@@ -155,19 +140,3 @@ function getTime(){
     }
     return time;
 }
-
-
-
-function getEvents(){
-
-}
-/*
-function jsonToArray(json){
-    var parsed = JSON.parse(json);
-    var arr = [];
-    for(var x in parsed){
-        arr.push(parsed[x]);
-    }
-    return arr;
-}
-*/
