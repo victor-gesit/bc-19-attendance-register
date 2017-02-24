@@ -2,7 +2,6 @@ const path = require('path');
 const firebase = require('firebase');
 const express = require('express');
 const router = express.Router();
-const async = require('async');
 const config = {
     apiKey: 'AIzaSyDMDAEyzR_JoZH2DALGyHeGaCHXcgGxl9g',
     authDomain: 'attendance-register-38ad7.firebaseapp.com',
