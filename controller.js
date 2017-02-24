@@ -16,7 +16,15 @@ let counter = 0;
 
 module.exports = function(app){
     app.get('/',function(req,res){
-        res.render('pages/signin');
+                signedIn(function(signedin){
+            if(!signedin){
+                res.render('pages/signin');
+            }
+            else{
+                res.render('pages/dashboard');
+            }
+        })
+        //res.render('pages/signin');
     });
     app.get('/checkin', function(req,res){
         getAttendees('ABPD',function(data){
@@ -58,7 +66,6 @@ module.exports = function(app){
                 res.render('pages/dashboard');
             }
         })
-        console.log('dadad');
         //res.render('pages/dashboard');
     })
     app.get('/create', function(req,res){
