@@ -28,3 +28,20 @@ header.custom-header {
 .mdl-layout__drawer a.mdl-navigation__link:hover {
   color: #000;
 }
+
+
+body, .page-content{
+  width:100%; margin:0 auto;
+}
+#titleHead {
+  width:70%;
+  margin:0 auto;
+  background-color:brown;
+  text-align: center;
+}
+.myEvents,myEvents a{
+  width:50%;
+  margin:0 auto;
+  background-color:white;
+  text-align: center;
+}

@@ -14,19 +14,11 @@ firebase.initializeApp(config);
 const database = firebase.database();
 let counter = 0;
 
-function renderPage(path,req,res,obj){
-    res.render(path,obj);
-}
-
 module.exports = function(app){
-    app.get('/index', function(req,res){
-        res.render('pages/home',{
-            title:'Attendance Register',
-        });
-    })    
-
-
-    app.get('/', function(req,res){
+    app.get('/',function(req,res){
+        res.render('pages/signin');
+    });
+    app.get('/checkin', function(req,res){
         getAttendees('ABPD',function(data){
             //console.log('from get(): ' + data);
 
@@ -58,13 +50,25 @@ module.exports = function(app){
         res.render('pages/signin');
     })
     app.get('/dashboard', function(req,res){
-        res.render('pages/dashboard');
+        signedIn(function(signedin){
+            if(!signedin){
+                res.render('pages/signin');
+            }
+            else{
+                res.render('pages/dashboard');
+            }
+        })
+        console.log('dadad');
+        //res.render('pages/dashboard');
     })
     app.get('/create', function(req,res){
         res.render('pages/create')
     })
     app.get('/signup', function(req,res){
         res.render('pages/signup')
+    })
+    app.get('/signout', function(req,res){
+        signOut(req,res);
     })
 
     
@@ -88,6 +92,7 @@ module.exports = function(app){
         signup(req,res);
     })
 }
+
 function home(req,res){
     checkIn(req,res);
 }
@@ -106,15 +111,11 @@ function checkIn(req,res){
             eventName:'Andela Bootcamp Project Defence'
         });
     });
-    res.redirect('/');    
+    res.redirect('/checkin');    
 }
 
 function signin(req,res){
-    console.log('signin calld');
     const email = req.body.email;
-    console.log(email);
-    console.log(req.body.password);
-    console.log(req.body);
     const password = req.body.password;
     firebase.auth().signInWithEmailAndPassword(email,password)
         .then((user) => {res.redirect('/dashboard')})
@@ -233,4 +234,24 @@ function getEvents(email,callback){
 }
 function addEvents(req,res){
 
+}
+
+function signOut(req,res){
+    firebase.auth().signOut()
+    .then(function() {
+        res.redirect('/signin');
+  // Sign-out successful.
+        }, function(error) {
+  // An error happened.
+    });
+}
+
+function signedIn(callback){
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        callback(true);
+    } else {
+        callback(false);
+    }
+});
 }

@@ -55,11 +55,9 @@ input[type=radio] {
   visibility: hidden;
 }
 
-
-    form {
-    display: inline-block;
-    text-align: center;
-    }
+form{
+  margin: 0 30px;
+}
 
 label.radio {
 	cursor: pointer;

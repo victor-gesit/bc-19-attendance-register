@@ -1,34 +1,39 @@
 
 <%include ../partials/dashpart %>
-	<div class='timer'>
-		<p id='count'><%=count%></p>
+
+	<div class='counter'>
+		<h3 id='count'><%=count%></he>
 	</div>
+	<div id='checkin'>
 	<form method='post' action='/checkin'>
 		<div id='reg'>
-			<p class='event'><%=eventName %></p>
+			<h2 class='event'><%=eventName %></h2>
+			<h4>Check In</h4>
 			<hr>
+
 			<div class='info'>
-				<p>Name</p>
+				<label>Name</label>
 				<input type='text' name='name' id='name'>
 			</div>
 
 			<div class='info'>
-				<p>Email</p>
+				<label>Email</label>
 				<input type='email' name='email' id='email'>
 			</div>
 			<input type='submit' name='submit' value='Submit'>
 		</div>
 	</form>
+	</div>
 
-	<table id='table'>
+	<table class='table-fill'>
 		<thead>
 			<tr id='theading'>
-				<td>
+				<td class='text-left'>
 					Time-in
 				</td>
-				<td>
+				<td class='text-left'>
 					Name
-				</td>
+				</td class='text-left'>
 				<td>
 					Email
 				</td>
@@ -37,9 +42,9 @@
 		<tbody id='table-body'>
 		<% for(var i=data.length-1; i >= 0; i--) { %>
    		<tr>
-     		<td><%= data[i].timeIn %></td>
-     		<td><%= data[i].name %></td>
-     		<td><%= data[i].email %></td>
+     		<td class='text-left'><%= data[i].timeIn %></td>
+     		<td class='text-left'><%= data[i].name %></td>
+     		<td class='text-left'><%= data[i].email %></td>
    		</tr>
 			<% } %>
 		</tbody>

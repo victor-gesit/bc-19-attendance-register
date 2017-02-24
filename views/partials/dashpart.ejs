@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.indigo-pink.min.css">
     <!-- Material Design Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="css/checkin.css" />
   </head>
   <body>
 
@@ -11,19 +12,19 @@
       <header class="custom-header mdl-layout__header mdl-layout__header--waterfall">
         <div class="mdl-layout__header-row">
           <!-- Title -->
-          <span class="mdl-layout-title">Attendance Register</span>
+          <span class="mdl-layout-title">Attendance Register | Dashboard</span>
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <a class="mdl-navigation__link" href="">Sign out</a>
+            <a class="mdl-navigation__link" href="/signout">Sign out</a>
           </nav>
         </div>
       </header>
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Events</span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Andela Bootcamp Project Defence</a>
+          <a class="mdl-navigation__link" href="/checkin" method='post'>Andela Bootcamp Project Defence</a>
         </nav>
       </div>
       <main class="mdl-layout__content">
